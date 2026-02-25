@@ -21,12 +21,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // GET /api/dune?action=results  → fetch latest cached results
+    // Cache at Vercel's edge for 24h — only hits Dune once per day
     if (req.method === 'GET' && action === 'results') {
       const duneRes = await fetch(
         `${DUNE_API_BASE}/query/${queryId}/results?limit=2000`,
         { headers: { 'X-DUNE-API-KEY': apiKey } },
       )
       const data = await duneRes.json()
+      if (duneRes.ok) {
+        res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=3600')
+      }
       return res.status(duneRes.status).json(data)
     }
 
