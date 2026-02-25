@@ -16,9 +16,11 @@ export function useDuneQuery() {
       const rows = response.result?.rows ?? []
       return transformRows(rows)
     },
-    staleTime: 5 * 60 * 1000,
-    refetchInterval: 10 * 60 * 1000,
-    retry: 2,
+    staleTime: Infinity,          // never consider data stale
+    refetchInterval: false,       // no auto-refresh
+    refetchOnWindowFocus: false,  // don't refetch when tab regains focus
+    refetchOnReconnect: false,    // don't refetch on reconnect
+    retry: 1,
   })
 
   /** Trigger a fresh Dune execution then update the cache with new results */
