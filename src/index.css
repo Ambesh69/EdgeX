@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-850: #18202f;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+}
+
+/* ── Semantic theme tokens ─────────────────────────────────────────── */
+
+:root {
+  /* Dark theme (default) */
+  --bg-base:            #0b0e14;
+  --bg-surface:         #111620;
+  --bg-surface-hover:   #18202e;
+  --bg-elevated:        #161c28;
+  --bg-input:           #1c2434;
+  --border-default:     #222c3c;
+  --border-hover:       #334155;
+  --border-strong:      #3d5068;
+  --text-primary:       #dde6f5;
+  --text-secondary:     #6b829e;
+  --text-muted:         #374357;
+  --accent-emerald:     #00cf8a;
+  --accent-emerald-bg:  rgba(0, 207, 138, 0.1);
+  --accent-red:         #ff4b6e;
+  --accent-red-bg:      rgba(255, 75, 110, 0.1);
+  --accent-blue:        #4fa3ff;
+  --accent-blue-bg:     rgba(79, 163, 255, 0.1);
+  --accent-amber:       #ffb84d;
+  --accent-amber-bg:    rgba(255, 184, 77, 0.1);
+  --chart-grid:         #1a2336;
+  --skeleton-bg:        #161e2e;
+  --shadow-card:        0 1px 4px rgba(0, 0, 0, 0.5);
+  --nav-blur-bg:        rgba(11, 14, 20, 0.85);
+}
+
+html[data-theme="light"] {
+  --bg-base:            #edf0f7;
+  --bg-surface:         #ffffff;
+  --bg-surface-hover:   #f5f7fd;
+  --bg-elevated:        #f9fafe;
+  --bg-input:           #f0f3fa;
+  --border-default:     #dce3f0;
+  --border-hover:       #b8c5d8;
+  --border-strong:      #9aaec4;
+  --text-primary:       #0c1420;
+  --text-secondary:     #4c6078;
+  --text-muted:         #8fa3b8;
+  --accent-emerald:     #00966a;
+  --accent-emerald-bg:  rgba(0, 150, 106, 0.08);
+  --accent-red:         #d42b4d;
+  --accent-red-bg:      rgba(212, 43, 77, 0.08);
+  --accent-blue:        #1665c1;
+  --accent-blue-bg:     rgba(22, 101, 193, 0.08);
+  --accent-amber:       #c47800;
+  --accent-amber-bg:    rgba(196, 120, 0, 0.08);
+  --chart-grid:         #e4ebf5;
+  --skeleton-bg:        #e8eef8;
+  --shadow-card:        0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 8px rgba(0, 0, 0, 0.04);
+  --nav-blur-bg:        rgba(237, 240, 247, 0.9);
+}
+
+/* ── Theme transition ───────────────────────────────────────────────── */
+
+html {
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Only transition color-related props to keep animations smooth */
+*, *::before, *::after {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    fill 160ms ease,
+    stroke 160ms ease;
+}
+
+/* But don't let theme transitions override animation properties */
+.animate-fade-in, .skeleton-pulse {
+  transition: none;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────── */
+
+.font-data {
+  font-family: 'DM Mono', 'Fira Code', 'Courier New', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ── Animations ─────────────────────────────────────────────────────── */
+
+@keyframes pulse-skeleton {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 0.2; }
+}
+
+.skeleton-pulse {
+  animation: pulse-skeleton 1.8s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.10s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.20s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.30s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.40s; }
+
+/* ── Recharts overrides ─────────────────────────────────────────────── */
+
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
