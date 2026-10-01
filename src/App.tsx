@@ -31,7 +31,7 @@ const CHAINS: { id: Chain; label: string; color: string }[] = [
 
 const queryClient = new QueryClient()
 
-const DUNE_QUERY_ID = import.meta.env.VITE_DUNE_QUERY_ID ?? 'unconfigured'
+const DUNE_QUERY_ID = import.meta.env.VITE_DUNE_QUERY_ID?.trim() || '6742902'
 
 function Dashboard() {
   const { data, isLoading, error, dataUpdatedAt, isRefreshing, forceRefresh } = useDuneQuery()

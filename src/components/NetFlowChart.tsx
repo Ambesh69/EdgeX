@@ -24,11 +24,11 @@ const LABEL_MAP: Record<string, string> = {
 export function NetFlowChart({ data, isDark }: NetFlowChartProps) {
   const reversed = [...data].reverse()
 
-  let cumulative = 0
-  const chartData = reversed.map((d) => {
-    cumulative += d.netFlow
-    return { ...d, cumulativeNetFlow: cumulative }
-  })
+  const chartData = reversed.reduce<Array<DailyStats & { cumulativeNetFlow: number }>>((rows, d) => {
+    const previous = rows[rows.length - 1]?.cumulativeNetFlow ?? 0
+    rows.push({ ...d, cumulativeNetFlow: previous + d.netFlow })
+    return rows
+  }, [])
 
   const c = isDark
     ? { blue: '#4fa3ff', grid: '#1a2336', axis: '#374357', refLine: '#2d3f55' }

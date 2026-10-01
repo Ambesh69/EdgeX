@@ -3,8 +3,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const DUNE_API_BASE = 'https://api.dune.com/api/v1'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const apiKey = process.env.DUNE_API_KEY
-  const queryId = process.env.DUNE_QUERY_ID
+  const apiKey = process.env.DUNE_API_KEY?.trim()
+  const queryId = process.env.DUNE_QUERY_ID?.trim()
 
   if (!apiKey || !queryId) {
     return res.status(500).json({ error: 'Dune env vars not configured' })

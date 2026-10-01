@@ -8,6 +8,7 @@ const QUERY_KEY = ['edgex-flows']
 export function useDuneQuery() {
   const queryClient = useQueryClient()
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [refreshError, setRefreshError] = useState<Error | null>(null)
 
   const query = useQuery<DailyStats[]>({
     queryKey: QUERY_KEY,
@@ -27,14 +28,13 @@ export function useDuneQuery() {
   async function forceRefresh() {
     if (isRefreshing) return
     setIsRefreshing(true)
+    setRefreshError(null)
     try {
       const response = await executeAndGetResults()
       const rows = response.result?.rows ?? []
       queryClient.setQueryData(QUERY_KEY, transformRows(rows))
     } catch (err) {
-      // Fall back to a regular refetch so the error surface is consistent
-      await query.refetch()
-      throw err
+      setRefreshError(err instanceof Error ? err : new Error(String(err)))
     } finally {
       setIsRefreshing(false)
     }
@@ -42,6 +42,7 @@ export function useDuneQuery() {
 
   return {
     ...query,
+    error: refreshError ?? query.error,
     isRefreshing,
     forceRefresh,
   }
